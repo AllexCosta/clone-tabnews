@@ -19,11 +19,15 @@ test("Apresenta a versão do postgres", async () => {
   const response = await fetch("http://localhost:3000/api/v1/status");
 
   const responseBody = await response.json();
-  let stringifyPgVersion = JSON.stringify(responseBody.postgres_version);
+  let stringifyPgVersion = JSON.stringify(
+    responseBody.dependecies.database.postgres_version,
+  );
   const parsedPgVersion = stringifyPgVersion
     .replace(/\\"/g, "")
     .replace(/"/g, "");
-  expect(responseBody.postgres_version).toBe(parsedPgVersion);
+  expect(responseBody.dependecies.database.postgres_version).toBe(
+    parsedPgVersion,
+  );
 });
 
 //Apresenta o Máximo de Conexões
@@ -31,7 +35,7 @@ test("Apresenta o Máximo de Conexões", async () => {
   const response = await fetch("http://localhost:3000/api/v1/status");
 
   const responseBody = await response.json();
-  expect(responseBody.max_connections).toBe(100);
+  expect(responseBody.dependecies.database.max_connections).toBe(100);
 });
 
 //Apresenta Conexões Utilizadas
@@ -39,5 +43,5 @@ test("Apresenta Conexões Utilizadas", async () => {
   const response = await fetch("http://localhost:3000/api/v1/status");
 
   const responseBody = await response.json();
-  expect(responseBody.used_connections).toBe(1);
+  expect(responseBody.dependecies.database.used_connections).toBe(1);
 });
